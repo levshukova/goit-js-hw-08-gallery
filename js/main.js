@@ -19,6 +19,7 @@ function createGalleryMarkup(cards) {
       return `<li class="gallery__item">
     <a
         class="gallery__link"
+       href="${original}"
     >
         <img
             class="gallery__image"
@@ -36,6 +37,7 @@ function onGalleryCardClick(evt) {
   if (!evt.target.classList.contains("gallery__image")) {
     return;
   }
+  evt.preventDefault();
   const imageEl = evt.target;
   const url = imageEl.dataset.source;
 
