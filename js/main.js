@@ -19,7 +19,6 @@ function createGalleryMarkup(cards) {
       return `<li class="gallery__item">
     <a
         class="gallery__link"
-        href="${original}"
     >
         <img
             class="gallery__image"
