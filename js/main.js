@@ -38,20 +38,27 @@ function onGalleryCardClick(evt) {
     return;
   }
   evt.preventDefault();
+
   const imageEl = evt.target;
   const url = imageEl.dataset.source;
 
   modalEl.classList.add("is-open");
   lightboxImageEl.src = url;
+  lightboxImageEl.alt = evt.target.alt;
 
   window.addEventListener("keydown", onEscKeyPress);
+  window.addEventListener("keydown", scrollImages);
+
+  // scrollImages(evt);
 }
 
 function onButtonCloseClick() {
   window.removeEventListener("keydown", onEscKeyPress);
+  window.removeEventListener("keydown", scrollImages);
 
   modalEl.classList.remove("is-open");
   lightboxImageEl.src = "";
+  lightboxImageEl.alt = "";
 }
 
 function onOverlayClick(evt) {
@@ -66,5 +73,31 @@ function onEscKeyPress(evt) {
 
   if (isEscKey) {
     onButtonCloseClick();
+  }
+}
+
+function scrollImages(evt) {
+  let imagesOriginLinks = [];
+  items.forEach((item) => {
+    imagesOriginLinks.push(item.original);
+  });
+  let description = [];
+  items.forEach((item) => description.push(item.description));
+
+  let index = imagesOriginLinks.indexOf(lightboxImageEl.src);
+  if (evt.keyCode == "37") {
+    if (index === 0) {
+      index = imagesOriginLinks.length;
+    }
+    lightboxImageEl.setAttribute("src", imagesOriginLinks[index - 1]);
+    lightboxImageEl.setAttribute("alt", description[index - 1]);
+  }
+  if (evt.keyCode == "39") {
+    if (index < imagesOriginLinks.length - 1) {
+    } else {
+      index = -1;
+    }
+    lightboxImageEl.setAttribute("src", imagesOriginLinks[index + 1]);
+    lightboxImageEl.setAttribute("alt", description[index + 1]);
   }
 }
